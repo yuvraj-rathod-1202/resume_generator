@@ -645,7 +645,7 @@ function confirmEditPORList(POR){
 
   updatePORList();
 
-  document.getElementById(`${POR.id}name`).innerText = `${document.getElementById("PORNameF").value} ${document.getElementById("PORdurationF").value}`;
+  document.getElementById(`${POR.id}name`).innerText = `${document.getElementById("PORNameF").value} ${document.getElementById("PORduration").value}`;
 
   document.getElementById("PORNameF").value = "";
   document.getElementById("PORdescriptionF").value = "";
