@@ -1,0 +1,16 @@
+{
+  "name": "resume_generator",
+  "version": "1.0.0",
+  "description": "Site is live: [Resume Generator](https://kishan-ved.github.io/resume_generator/resumegenerator.html)",
+  "main": "groq-script.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

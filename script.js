@@ -4,6 +4,7 @@ let projectsHtml = [];
 let skills = [];
 let PORs = [];
 let achievements = [];
+let resumeData = {};
 
 
 
@@ -275,6 +276,15 @@ function updateInternshipList() {
       "\n   \\end{itemize}" +
       "";
   }
+
+  resumeData['internship'] = {
+    title: document.getElementById("internTitleF").value,
+    company: document.getElementById("InfointernF").value,
+    link: document.getElementById("internLinkF").value,
+    description: document.getElementById("interndescriptionF").value,
+    description2: document.getElementById("interndescription2F").value,
+    year: document.getElementById("yearinternF").value
+  }
 }
 
 // Helper function to escape special characters in LaTeX
@@ -489,6 +499,15 @@ function updateProjectList() {
       "\n   \\end{itemize}" +
       "";
   }
+
+  resumeData['projectship'] = {
+    title: document.getElementById("projectTitleF").value,
+    company: document.getElementById("InfoprojectF").value,
+    link: document.getElementById("projectLinkF").value,
+    description: document.getElementById("projectdescriptionF").value,
+    description2: document.getElementById("projectdescription2F").value,
+    year: document.getElementById("yearprojectF").value
+  }
 }
 
 // Initialize an empty array to store skills
@@ -616,6 +635,11 @@ function updateSkillList() {
 
     // Append additional content to the "interns" span
     skillsSpan.innerHTML += "\\item \\textbf{" + skill.type + ":} " + skill.description + "\n";
+  }
+
+  resumeData['skills'] = {
+    type: document.getElementById("skilltypeF").value,
+    description: document.getElementById("skilldescriptionF").value
   }
 }
 
@@ -775,6 +799,13 @@ function updatePORList() {
       "      \\item " + porr.description2 + "\n" +
       "        \\end{itemize}\n";
   }
+
+  resumeData['por'] = {
+    name: document.getElementById("PORNameF").value,
+    description: document.getElementById("PORdescriptionF").value,
+    description2: document.getElementById("PORdescription2F").value,
+    duration: document.getElementById("PORdurationF").value
+  }
 }
 
 // function to add a new achievement
@@ -893,6 +924,10 @@ function updateAchievementsList() {
     // add LaTeX code to the achievementsSpan element
     achievementsSpan.innerHTML += "\\item {" + escapeLaTeX(achievement.name) + "}\\vspace{0.1cm}\n";  // adjust the spacing as needed
   }
+
+  resumeData['achievement'] = {
+    name: document.getElementById("achievementNameF").value
+  }
 }
 
 
@@ -913,7 +948,7 @@ function generateCV() {
   // document.getElementById("gitT").innerHTML = document.getElementById("gitF").value;
 
   //academic details
-  //M.Tech
+  //Phd
   document.getElementById("PCPIT").innerHTML = document.getElementById("marksphdF").value;
   document.getElementById("PYOJT").innerHTML = document.getElementById("yearphdF").value;
   document.getElementById("PINST").innerHTML = document.getElementById("institutephdF").value;
@@ -937,6 +972,8 @@ function generateCV() {
   document.getElementById("institutetenT").innerHTML = document.getElementById("institutetenF").value;
   document.getElementById("markstenT").innerHTML = document.getElementById("markstenF").value;
   document.getElementById("yeartenT").innerHTML = document.getElementById("yeartenF").value;
+
+  
 
   //Internships
   document.getElementById("internTitleT").innerHTML = document.getElementById("internTitleF").value;
@@ -1091,3 +1128,53 @@ function copyToClipboard() {
   alert("Copied LaTeX code to clipboard. Paste in any LaTeX editor. Eg: Overleaf.");
 }
 setInterval(generateCV, 100);
+
+
+function saveResumeData(){
+  resumeData['personalDetail'] = {
+    name: document.getElementById("nameF").value,
+    currentYear: document.getElementById("CGradF").value,
+    program: document.getElementById("BranchF").value,
+    emailId: document.getElementById("emailF").value,
+    contactNumber: document.getElementById("contactF").value,
+    github: document.getElementById("gitF").value,
+    linkedIn: document.getElementById("linkedinF").value,
+    website: document.getElementById("websiteF").value
+  }
+
+  resumeData['academicDetail'] = {
+    phd: {
+      institute: document.getElementById("institutephdF").value,
+      specialization: document.getElementById("specializationphdF").value,
+      marks: document.getElementById("marksphdF").value,
+      year: document.getElementById("yearphdF").value
+    },
+    mtech: {
+      Institute: document.getElementById("institutemtechF").value,
+      Specialization: document.getElementById("specializationmtechF").value,
+      marks: document.getElementById("marksmtechF").value,
+      year: document.getElementById("yearmtechF").value
+    },
+    btech: {
+      marks: document.getElementById("CPIF").value,
+      institute: document.getElementById("InsF").value,
+      year: document.getElementById("YOJF").value,
+      Specialization: document.getElementById("SpecF").value
+    },
+    twelve: {
+      institute: document.getElementById("institutetwelveF").value,
+      marks: document.getElementById("markstwelveF").value,
+      year: document.getElementById("yeartwelveF").value
+    },
+    ten: {
+      institute: document.getElementById("institutetenF").value,
+      marks: document.getElementById("markstenF").value,
+      year: document.getElementById("yeartenF").value 
+    }
+  }
+
+}
+
+saveResumeData()
+
+
