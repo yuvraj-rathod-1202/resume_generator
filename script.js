@@ -217,7 +217,9 @@ function updateInternshipList() {
 
     // Clear existing content in the list and span
     internList.innerHTML = "";
+    if(internsSpan){
     internsSpan.innerHTML = "";
+    }
 
     // Iterate over the internships array and generate HTML for each entry
     for (let internship of internships) {
@@ -926,6 +928,124 @@ function updateAchievementsList() {
         achievementsSpan.innerHTML += "\\item {" + escapeLaTeX(achievement.name) + "}\\vspace{0.1cm}\n";  // adjust the spacing as needed
     }
 }
+// console.log(Date(Date.now()).toString().split("GMT")[0].slice(16, 21));
+import {getUser, saveResume} from "./firebase.config.js"
+document.getElementById("handlesaveResume").addEventListener("click", handlesaveResume);
+const user = getUser();
+function handlesaveResume(){
+    if(document.getElementById("savedName").value == ""){
+        alert("Please enter a name to save the resume");
+        return;
+    }
+    const userData = {
+        savedName: document.getElementById("savedName").value || "",
+        savedEmail: user.email || "",
+        savedDate: Date(Date.now()).toString().split("GMT")[0].slice(4, 15),
+        savedTime: Date(Date.now()).toString().split("GMT")[0].slice(16, 21),
+        name: document.getElementById("nameF").value || "",
+        currentYear: document.getElementById("CGradF").value || "",
+        email: document.getElementById("emailF").value || "",
+        contact: document.getElementById("contactF").value || "",
+        branch: document.getElementById("BranchF").value || "",
+        graduationYear: document.getElementById("CGradF").value || "",
+        git: document.getElementById("gitF").value || "",
+        linkedin: document.getElementById("linkedinF").value || "",
+        website: document.getElementById("websiteF").value || "",
+        BTech: {
+            CPI: document.getElementById("CPIF").value || "",
+            YOJ: document.getElementById("YOJF").value || "",
+            institute: document.getElementById("InsF").value || "",
+            specialization: document.getElementById("SpecF").value || "",
+
+        },
+        Mtech: {
+            CPI: document.getElementById("marksmtechF").value || "",
+            YOJ: document.getElementById("yearmtechF").value || "",
+            institute: document.getElementById("institutemtechF").value || "",
+            specialization: document.getElementById("specializationmtechF").value || "",
+        },
+        PhD: {
+            CPI: document.getElementById("marksphdF").value || "",
+            YOJ: document.getElementById("yearphdF").value || "",
+            institute: document.getElementById("institutephdF").value || "",
+            specialization: document.getElementById("specializationphdF").value || "",
+        },
+        twelfth: {
+            institute: document.getElementById("institutetwelveF").value || "",
+            marks: document.getElementById("markstwelveF").value || "",
+            year: document.getElementById("yeartwelveF").value || "",
+        },
+        tenth: {
+            institute: document.getElementById("InsF").value || "",
+            marks: document.getElementById("markstenF").value || "",
+            year: document.getElementById("yeartenF").value || "",
+        },
+        skills: skills,
+        internships: internships,
+        projects: projects,
+        PORs: PORs,
+        achievements: achievements,
+    }
+
+    try{
+        const user = getUser();
+        console.log(user);
+        if(user.uid){
+        saveResume(userData);
+        alert("Data Saved Successfully");
+        // window.location.href = "./save.html";
+        }else{
+            alert("User not logged in");
+        }
+    }catch(e){
+        alert("Data not saved");
+    }
+}
+
+const fillValues = () => {
+    let data = localStorage.getItem("resume");
+    data = JSON.parse(data);
+    console.log(data);
+    document.getElementById("nameF").value = data.name;
+    document.getElementById("CGradF").value = data.currentYear;
+    document.getElementById("emailF").value = data.email;
+    document.getElementById("contactF").value = data.contact;
+    document.getElementById("BranchF").value = data.branch;
+    document.getElementById("CGradF").value = data.graduationYear;
+    document.getElementById("gitF").value = data.git;
+    document.getElementById("linkedinF").value = data.linkedin;
+    document.getElementById("websiteF").value = data.website;
+    document.getElementById("CPIF").value = data.BTech.CPI;
+    document.getElementById("YOJF").value = data.BTech.YOJ;
+    document.getElementById("InsF").value = data.BTech.institute;
+    document.getElementById("SpecF").value = data.BTech.specialization;
+    document.getElementById("marksmtechF").value = data.Mtech.CPI;
+    document.getElementById("yearmtechF").value = data.Mtech.YOJ;
+    document.getElementById("institutemtechF").value = data.Mtech.institute;
+    document.getElementById("specializationmtechF").value = data.Mtech.specialization;
+    document.getElementById("marksphdF").value = data.PhD.CPI;
+    document.getElementById("yearphdF").value = data.PhD.YOJ;
+    document.getElementById("institutephdF").value = data.PhD.institute;
+    document.getElementById("specializationphdF").value = data.PhD.specialization;
+    document.getElementById("institutetwelveF").value = data.twelfth.institute;
+    document.getElementById("markstwelveF").value = data.twelfth.marks;
+    document.getElementById("yeartwelveF").value = data.twelfth.year;
+    document.getElementById("institutetenF").value = data.tenth.institute;
+    document.getElementById("markstenF").value = data.tenth.marks;
+    document.getElementById("yeartenF").value = data.tenth.year;
+    skills = data.skills || [];
+    internships = data.internships || [];
+    projects = data.projects || [];
+    PORs = data.PORs || [];
+    achievements = data.achievements || [];
+    updateSkillList();
+    updateInternshipList();
+    updateProjectList();
+    updatePORList();
+    updateAchievementsList();
+}
+
+fillValues();
 
 // Function to generate the CV template with user-provided input values
 function generateCV() {
