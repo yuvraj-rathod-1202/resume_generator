@@ -7,10 +7,12 @@ import {
     doc, 
     getDoc,
     addDoc,
+    setDoc,
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 import { 
@@ -44,11 +46,12 @@ export const getUser = () => {
 
 
 // Function to save resume data
-export const saveResume = async (resumeData) => {
+export const saveResume = async (resumeData, uid) => {
     try {
-        const docRef = await addDoc(collection(db, "resume"), resumeData);
-        console.log("Document written with ID: ", docRef.id);
-        return docRef.id; // Returns the auto-generated document ID
+        const docRef = doc(db, "resume", uid);
+        await setDoc(docRef, resumeData); 
+        console.log("Document written with ID: ", uid);
+        return uid;
     } catch (e) {
         console.error("Error adding document: ", e);
         return null;
@@ -66,6 +69,19 @@ export const getsavedResume = async (queryemail) => {
     });
 
     return resumeData;
+};
+
+export const deleteSavedResume = async (uid) => {
+    try {
+        const docRef = doc(db, "resume", uid);
+        await deleteDoc(docRef);
+
+        console.log(`Resume with UID: ${uid} has been deleted.`);
+        return true;
+    } catch (error) {
+        console.error("Error deleting resume:", error);
+        return false;
+    }
 };
 
 // Google Sign-In Function
